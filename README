@@ -2,3 +2,8 @@ This project is to create a dashboard that will quickly show opponents top hero 
 
 TODO:
 OCR on joining a comp match
+
+
+ASSUMPTIONS:
+* MR is fullscreen on your MAIN monitor
+* you are using 16:9
