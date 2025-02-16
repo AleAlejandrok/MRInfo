@@ -5,7 +5,7 @@ export class Player {
     playerName:string;
     playerData:any;
 
-    public static async createPlayer(MRAPIInstance: MarvelRivalsApi, playerName:string): Promise<Player> {
+    public static async create(MRAPIInstance: MarvelRivalsApi, playerName:string): Promise<Player> {
         const player = new Player(MRAPIInstance, playerName);
         await player._insantiate();
         return player;

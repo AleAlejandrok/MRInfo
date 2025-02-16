@@ -1,14 +1,15 @@
-const axios = require('axios');
+import axios from 'axios'; 
+import { API_ENDPOINT } from "../constants";
 
-class MarvelRivalsApi {
+export class MarvelRivalsApi {
     apikey: string;
-    apiUrl = `https://marvelrivalsapi.com/api/v1/`;
+    apiUrl = API_ENDPOINT;
     constructor(apikey: string){
         this.apikey = apikey;
     }
 
     private async _makeRequest(endpoint?: string, query?: string, details?: string){
-        let request = axios.get(`${this.apiUrl}${endpoint ? endpoint +'/' : ''}${query ? query + '/' : ''}${details ? details + '/': ''}`,{headers: { 'x-api-key': this.apikey }})
+        const request = axios.get(`${this.apiUrl}${endpoint ? endpoint +'/' : ''}${query ? query + '/' : ''}${details ? details + '/': ''}`,{headers: { 'x-api-key': this.apikey }})
         .then( 
             (response: any) => {return response.data})
         .catch((error: any) => {
@@ -36,5 +37,3 @@ class MarvelRivalsApi {
         return this._makeRequest('player',playerToFind);
     }
 }
-
-export {MarvelRivalsApi}
