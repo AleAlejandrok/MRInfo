@@ -31,7 +31,7 @@ export class GameScreenshot {
                 .then( async metadata => {
                     for(let i=0;i<6;i++){
                         const left:number = Math.round(.745*(metadata.width!) - (.0156 * (metadata.width!)*i))
-                        const width:number = Math.round(.071875*metadata.width!)
+                        const width:number = Math.round(.095*metadata.width!)
                         const top:number = Math.round((.1745*metadata.height!) + (i * metadata.height! * .1152 ))
                         const height:number = Math.round(.0207*metadata.height!);
                         const userName = await userNameFactory.clone().extract({ left: left, height: height, top: top, width: width }).resize({ width: 1200, kernel: 'nearest' }).toBuffer()

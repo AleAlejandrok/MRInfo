@@ -11,7 +11,8 @@
     "electron": "^34.2.0",
     "ps-list": "^8.1.1",
     "sharp": "^0.33.5",
-    "tesseract.js": "^5.1.1"
+    "tesseract.js": "^5.1.1",
+    "timer-node": "^5.0.9"
   },
   "scripts": {
     "build": "tsc",

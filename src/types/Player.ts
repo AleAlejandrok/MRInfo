@@ -31,6 +31,6 @@ export class Player {
             (hero1: { matches: number; },hero2: { matches: number; }) =>{
                 return hero1.matches-hero2.matches;
             }
-        ).slice(-3).map((hero: { hero_name: string; })=>hero.hero_name);
+        ).slice(-3).reverse().map((hero: { hero_name: string; })=>hero.hero_name);
     }
 }

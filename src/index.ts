@@ -3,10 +3,12 @@ import { Player } from "./types/Player";
 import 'dotenv/config'
 import { GameScreenshot } from "./types/GameScreenshot";
 import {  createWorker } from "tesseract.js";
-
+import { Timer } from 'timer-node';
 
 
 const main = async () => {
+    const timer = new Timer();
+    timer.start();
     const api = new MarvelRivalsApi(process.env.apikey!);
     //check if a valid game is even running 
     // const processes = await psList();
@@ -21,18 +23,33 @@ const main = async () => {
 
     const compScreen = await GameScreenshot.create();
     const worker = await createWorker(['eng', 'jpn','chi_sim','chi_tra','spa'])
-
+    const playerNamePromises = [];
+    const playersArray: Promise<Player>[] = []
     for(const image of compScreen.userNames){ 
-        const playerName = (await worker.recognize(image )).data.text;
-        const player = await Player.create(api, playerName);
-        if(!player.isError){
-            console.log(`${playerName}: ${player.getTopThreeCompHeros()}`);
-        }
-        else{
-            console.log(`Error: ${playerName} not found on Marvel Rivals API`);
-        }
-    };
+        playerNamePromises.push(worker.recognize(image))
+    }
+    
 
+    await Promise.all(playerNamePromises)
+    .then(async (resolvedPlayerNames) =>{
+        resolvedPlayerNames.forEach((playerName)=>{
+            console.log(`Got Name: ${playerName.data.text}`);
+            playersArray.push(Player.create(api,playerName.data.text.trim()))
+        });
+    });
+
+    await Promise.all(playersArray).then((players) =>{
+        players.forEach((player) =>{
+            if(!player.isError){
+                console.log(`${player.playerName}: ${player.getTopThreeCompHeros()}`);
+            }
+            else{
+                console.log(`${player.playerName}: private profile?`);
+            }
+        });
+    });
+    timer.stop();
+    console.log(timer.ms());
     worker.terminate();
     return 0;
 }
