@@ -12,7 +12,7 @@ export class MarvelRivalsApi {
         const request = axios.get(`${this.apiUrl}${endpoint ? endpoint +'/' : ''}${query ? query + '/' : ''}${details ? details + '/': ''}`,{headers: { 'x-api-key': this.apikey }})
         .then( 
             (response: any) => {return response.data})
-        //  .catch((error: any) => {
+         .catch(() => {
         //     if (error.response) {
         //         console.log(error.response.data);
         //         console.log(error.response.status);
@@ -23,7 +23,7 @@ export class MarvelRivalsApi {
         //         console.log('Error', error.message);
         //     }
         //     console.log(error.config);
-        // });
+        });
         return request; 
     }
 

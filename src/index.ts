@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { GameScreenshot } from "./types/GameScreenshot";
 import {  createWorker } from "tesseract.js";
 import { Timer } from 'timer-node';
+import process from 'process';
 
 
 const main = async () => {
@@ -40,6 +41,7 @@ const main = async () => {
 
     await Promise.all(playersArray).then((players) =>{
         players.forEach((player) =>{
+            //testing
             if(!player.isError){
                 console.log(`${player.playerName}: ${player.getTopThreeCompHeros()}`);
             }
