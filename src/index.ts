@@ -1,15 +1,13 @@
 import { MarvelRivalsApi } from "./types/MarvelRivalsAPI";
 import { Player } from "./types/Player";
 import 'dotenv/config'
-import psList from "../node_modules/ps-list/index";
 import { GameScreenshot } from "./types/GameScreenshot";
+import {  createWorker } from "tesseract.js";
+
 
 
 const main = async () => {
-    // const api = new MarvelRivalsApi(process.env.apikey!);
-    // const playerNames:string[] = [
-    //     "zexify"
-    // ]
+    const api = new MarvelRivalsApi(process.env.apikey!);
     //check if a valid game is even running 
     // const processes = await psList();
     // const game = processes.filter(obj => {
@@ -20,17 +18,23 @@ const main = async () => {
     //     throw "Error: no valid game running";
         // return -1;
     // }
-    // const players:Player[] = []
-    // for(const playerName of playerNames){
-    //     const player = await Player.createPlayer(api, playerName);
-    //     players.push(player)
-    //     console.log(player.getTopThreeCompHeros());
-    // }
-    
 
     const compScreen = await GameScreenshot.create();
-    
-    console.log('debug');
+    const worker = await createWorker(['eng', 'jpn','chi_sim','chi_tra','spa'])
+
+    for(const image of compScreen.userNames){ 
+        const playerName = (await worker.recognize(image )).data.text;
+        const player = await Player.create(api, playerName);
+        if(!player.isError){
+            console.log(`${playerName}: ${player.getTopThreeCompHeros()}`);
+        }
+        else{
+            console.log(`Error: ${playerName} not found on Marvel Rivals API`);
+        }
+    };
+
+    worker.terminate();
+    return 0;
 }
 
 main();

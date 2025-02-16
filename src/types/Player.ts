@@ -4,6 +4,7 @@ export class Player {
     api: MarvelRivalsApi;
     playerName:string;
     playerData:any;
+    isError:boolean;
 
     public static async create(MRAPIInstance: MarvelRivalsApi, playerName:string): Promise<Player> {
         const player = new Player(MRAPIInstance, playerName);
@@ -12,12 +13,17 @@ export class Player {
     }
 
     private async _insantiate() {
-        this.playerData = await this.api.getPlayerData(this.playerName);
+        const request = await this.api.getPlayerData(this.playerName);
+        this.playerData = request;
+        if(!this.playerData){
+            this.isError = true;
+        }    
     }
 
     private constructor(MRAPIInstance: MarvelRivalsApi, playerName: string){
         this.api = MRAPIInstance;
         this.playerName = playerName;
+        this.isError = false;
     }
 
     getTopThreeCompHeros(): string[]{

@@ -1,6 +1,6 @@
 import axios from 'axios'; 
 import { API_ENDPOINT } from "../constants";
-
+//TODO: error handling
 export class MarvelRivalsApi {
     apikey: string;
     apiUrl = API_ENDPOINT;
@@ -14,13 +14,13 @@ export class MarvelRivalsApi {
             (response: any) => {return response.data})
         .catch((error: any) => {
             if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+                // console.log(error.response.data);
+                // console.log(error.response.status);
+                // console.log(error.response.headers);
             } else if (error.request) {
-                console.log(error.request);
+                // console.log(error.request);
             } else {
-                console.log('Error', error.message);
+                // console.log('Error', error.message);
             }
             console.log(error.config);
         });
@@ -33,7 +33,6 @@ export class MarvelRivalsApi {
 
     async getPlayerData(playerToFind:string){
         this._makeRequest('player',playerToFind,'update');
-        await new Promise(resolve => setTimeout(resolve, 1000));
         return this._makeRequest('player',playerToFind);
     }
 }

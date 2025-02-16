@@ -10,7 +10,8 @@
     "dotenv": "^16.4.7",
     "electron": "^34.2.0",
     "ps-list": "^8.1.1",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "tesseract.js": "^5.1.1"
   },
   "scripts": {
     "build": "tsc",
